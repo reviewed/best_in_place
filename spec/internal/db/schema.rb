@@ -25,4 +25,10 @@ ActiveRecord::Schema.define do
     t.integer  "zero_field"
     t.string   "favorite_snacks"
   end
+
+  create_table "test_results", :force => true do |t|
+    t.string   "name"
+    t.string   "result"
+    t.integer  "user_id"
+  end
 end

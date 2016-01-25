@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   alias_attribute :description_simple, :description
 
   serialize :favorite_snacks
+  has_many :test_results
 
   def address_format
     "<b>addr => [#{address}]</b>".html_safe
@@ -35,4 +36,9 @@ class User < ActiveRecord::Base
     nil
   end
 
+  def tests
+    TestResult::AVAILABLE_TESTS.map do |test_type|
+      test_results.where(name: test_type).first || TestResult.new(name: test_type, user_id: id)
+    end
+  end
 end
