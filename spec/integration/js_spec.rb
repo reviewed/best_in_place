@@ -224,10 +224,20 @@ describe "JS behaviour", :js => true do
 
     expect(find('#favorite_snacks')).to have_content('Twizzlers,Whoppers,Kettle Corn')
     expect(find('#favorite_snacks')).not_to have_content('Sun Chips')
-
     visit user_path(@user)
 
     expect(find('#favorite_snacks')).to have_content('Twizzlers,Whoppers,Kettle Corn')
+  end
+
+  it "does not error when value is nil" do
+    @user.save!
+    visit user_path(@user)
+    expect(find('#favorite_snacks')).to have_content('-')
+
+    bip_multi_select @user, :favorite_snacks, ['Sun Chips']
+    expect(find('#favorite_snacks')).to have_content('Sun Chips')
+    visit user_path(@user)
+    expect(find('#favorite_snacks')).to have_content('Sun Chips')
   end
 
   it "should apply the inner_class option to a select field" do
